@@ -9,11 +9,15 @@ const ENV = process.env.NODE_ENV;
 const devel = {
   devtool: 'inline-source-map',
 
-  devServer: {
-    hot: true,
-    contentBase: resolve(__dirname, 'public'),
-    publicPath: '/'
-  },
+  entry: [
+    // HMR support
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+
+    // entry point
+    './src/app/index.js'
+  ],
+
 
   module: {
     rules: [
@@ -60,6 +64,8 @@ const devel = {
 };
 
 const prod = {
+  entry: './src/app/index.js',
+
   module: {
     rules: [
       {
@@ -107,18 +113,6 @@ const prod = {
 };
 
 const base = {
-  entry: [
-    // HMR support
-    'react-hot-loader/patch',
-
-    // webpack-dev-server
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-
-    // entry point
-    './src/index.js'
-  ],
-
   output: {
     filename: 'bundle.js',
     path: resolve(__dirname, 'public'),
