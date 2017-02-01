@@ -1,9 +1,15 @@
+import { browserHistory } from 'react-router';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
-import { browserHistory } from 'react-router';
+import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
+import rootSaga from './sagas';
 
-const middlewares = [routerMiddleware(browserHistory)];
+const sagaMiddleware = createSagaMiddleware();
+const middlewares = [
+  routerMiddleware(browserHistory),
+  sagaMiddleware,
+];
 
 // Redux devtool browser extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // eslint-disable-line
@@ -29,6 +35,8 @@ export function configureStore(initialState = {}) {
 }
 
 const store = configureStore();
+
+sagaMiddleware.run(rootSaga);
 
 export const history = syncHistoryWithStore(browserHistory, store);
 

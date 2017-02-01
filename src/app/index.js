@@ -1,10 +1,11 @@
+import 'babel-polyfill'; // eslint-disable-line
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import store from './store';
 import Routes from './Routes';
-import { AppContainer } from 'react-hot-loader';
+import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
 
 const render = (Component) => {
   ReactDOM.render(
@@ -13,7 +14,7 @@ const render = (Component) => {
         <Component />
       </Provider>
     </AppContainer>,
-    document.getElementById('app')
+    document.getElementById('app'),
   );
 };
 

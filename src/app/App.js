@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 
 const App = ({ children }) => (
   <div>
-    <p>lmao</p>
     {children}
   </div>
 );
