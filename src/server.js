@@ -1,24 +1,26 @@
 const express = require('express');
 const path = require('path');
 
+const { renderHTML } = require('./templates');
+
 const app = express();
 
 if (process.env.NODE_ENV === 'development') {
   const webpack = require('webpack');
   const webpackConfig = require('../webpack.config');
+
   const compiler = webpack(webpackConfig);
 
   // webpack hot module replacement middlewares
   app.use(require('webpack-dev-middleware')(compiler,
     {
-      noInfo: false,
+      noInfo: true,
       publicPath: webpackConfig.output.publicPath,
-      quiet: false,
+      quiet: true,
       watchOptions: {
         aggregateTimeout: 300,
         poll: true
       },
-      index: "index.html",
       stats: { colors: true },
       reporter: null,
       serverSideRender: false,
@@ -34,8 +36,9 @@ const PUBLIC_PATH = path.join(__dirname, '..', 'public');
 
 app.use(express.static(PUBLIC_PATH));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(PUBLIC_PATH, 'index.html'));
+// use react-router to handle routes
+app.get('*', (req, res) => {
+  res.send(renderHTML('/bundle.js', '/bundle.css'));
 });
 
 app.listen(PORT, () => { console.log(`Server listens on ${PORT}`); });

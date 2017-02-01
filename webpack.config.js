@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { resolve } = require('path');
 const { mergeWith, concat } = require('ramda');
 
@@ -116,14 +115,10 @@ const base = {
   output: {
     filename: 'bundle.js',
     path: resolve(__dirname, 'public'),
-    publicPath: '/'
+    publicPath: '/',
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: './assets/index.html.template'
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(ENV),

@@ -1,7 +1,8 @@
 import React from 'react';
+import styles from './styles.css';
 
 const Applicants = () => (
-  <p>Applicants</p>
+  <p className={styles.text}>Applicants</p>
 );
 
 export default Applicants;
