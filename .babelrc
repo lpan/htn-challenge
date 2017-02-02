@@ -3,7 +3,10 @@
     ["es2015", { "modules": false }],
     "react"
   ],
-  "plugins": ["ramda", "transform-object-rest-spread"],
+  "plugins": [
+    "ramda",
+    "transform-object-rest-spread"
+  ],
   "env": {
     "development": {
       "plugins": ["react-hot-loader/babel"]

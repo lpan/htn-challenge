@@ -3,6 +3,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { resolve } = require('path');
 const { mergeWith, concat } = require('ramda');
 
+const autoprefixer = require('autoprefixer');
+
 const ENV = process.env.NODE_ENV;
 
 const devel = {
@@ -12,9 +14,10 @@ const devel = {
     // HMR support
     'react-hot-loader/patch',
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    'babel-polyfill',
 
     // entry point
-    './src/app/index.js'
+    './src/app/index.js',
   ],
 
 
@@ -25,28 +28,40 @@ const devel = {
         use: [
           'babel-loader',
         ],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: /(\.global\.css$|react-select.css)/,
         use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
           {
-            loader: 'style-loader',
+            loader: 'postcss-loader',
+            options: {
+              plugins() {
+                return [autoprefixer];
+              },
+            },
           },
+        ],
+      },
+      {
+        test: /^((?!\.global|react-select).)*\.css$/,
+        use: [
+          { loader: 'style-loader' },
           {
             loader: 'css-loader',
             options: {
               modules: true,
               importLoaders: 1,
+              sourceMap: true,
             },
           },
           {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [
-                  require('autoprefixer'),
-                ];
+                return [autoprefixer];
               },
             },
           },
@@ -63,7 +78,10 @@ const devel = {
 };
 
 const prod = {
-  entry: './src/app/index.js',
+  entry: [
+    'babel-polyfill',
+    './src/app/index.js',
+  ],
 
   module: {
     rules: [
@@ -72,10 +90,24 @@ const prod = {
         use: [
           'babel-loader',
         ],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: /(\.global\.css$|react-select.css)/,
+        use: ExtractTextPlugin.extract([
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins() {
+                return [autoprefixer];
+              },
+            },
+          },
+        ]),
+      },
+      {
+        test: /^((?!\.global|react-select).)*\.css$/,
         use: ExtractTextPlugin.extract([
           {
             loader: 'css-loader',
@@ -88,9 +120,7 @@ const prod = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [
-                  require('autoprefixer'),
-                ];
+                return [autoprefixer];
               },
             },
           },

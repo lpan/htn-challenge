@@ -12,5 +12,10 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': 0,
     'arrow-parens': 0,
-  }
+  },
+  settings: {
+    'import/resolver': {
+      'babel-module': {}
+    }
+  },
 };

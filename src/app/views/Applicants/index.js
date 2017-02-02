@@ -1,8 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { userPropType } from '../../utils/customPropTypes';
+import { usersPropType } from './utils';
 
-const renderUsers = (users) => users.map((user) => <p key={user.email}>{user.name}</p>);
+import User from './User';
+import FilterBar from './FilterBar';
 
 class Applicants extends Component {
   componentDidMount() {
@@ -10,10 +11,19 @@ class Applicants extends Component {
     dispatch({ type: 'FETCH_USERS', payload: {} });
   }
 
-  render() {
+  renderUsers() {
     const { users } = this.props;
+    return users.map((user) => <User key={user.email} user={user} />);
+  }
+
+  render() {
     return (
-      <div>{renderUsers(users)}</div>
+      <div>
+        <FilterBar />
+        <div>
+          {this.renderUsers()}
+        </div>
+      </div>
     );
   }
 }
@@ -24,7 +34,7 @@ Applicants.defaultProps = {
 
 Applicants.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  users: userPropType,
+  users: usersPropType,
 };
 
 const mapStateToProps = (state) => ({
