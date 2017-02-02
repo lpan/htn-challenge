@@ -1,44 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
+import { createSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { skillOptionsSelector, filtersSelector } from '../../../reducers/users';
+import { STATUS_OPTIONS } from '../../../constants/users';
 import { optionsPropType } from '../utils';
-import * as options from './options';
 import styles from './styles.css';
 
 class FilterBar extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      skill: '',
-      status: '',
-    };
-
-    this.updateValue = this.updateValue.bind(this);
-  }
-
   updateValue(type) {
     return (value) => { this.setState({ [type]: value }); };
   }
 
   render() {
-    const { skills } = this.props;
+    const { skillOptions, filters } = this.props;
+    console.log(STATUS_OPTIONS);
 
     return (
       <div className={styles.container}>
         <Select
           name="skill"
-          value={this.state.skill}
+          value={filters.skill}
           onChange={this.updateValue('skill')}
-          options={skills}
+          options={skillOptions}
           className={styles.item}
           placeholder="Filter by skill"
         />
         <Select
           name="status"
-          value={this.state.status}
+          value={filters.status}
           onChange={this.updateValue('status')}
-          options={options.status}
+          options={STATUS_OPTIONS}
           placeholder="Filter by Status"
+          className={styles.item}
+        />
+        <Select
+          name="number-items"
+          value={filters.numItems}
+          onChange={this.updateValue('status')}
+          placeholder="Entries per Page"
           className={styles.item}
         />
       </div>
@@ -47,7 +47,19 @@ class FilterBar extends Component {
 }
 
 FilterBar.propTypes = {
-  skills: optionsPropType.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  skillOptions: optionsPropType.isRequired,
+  filters: PropTypes.shape({
+    numItems: PropTypes.number,
+    skill: PropTypes.string,
+    status: PropTypes.string,
+  }).isRequired,
 };
 
-export default FilterBar;
+const mapStateToProps = createSelector(
+  skillOptionsSelector,
+  filtersSelector,
+  (skillOptions, filters) => ({ skillOptions, filters }),
+);
+
+export default connect(mapStateToProps)(FilterBar);

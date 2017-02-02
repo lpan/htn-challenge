@@ -5,7 +5,7 @@ import Accepted from 'react-icons/lib/fa/check';
 import Rejected from 'react-icons/lib/fa/times-circle';
 import Review from 'react-icons/lib/fa/clock-o';
 
-import { mapValue, status as statusOptions } from '../FilterBar/options';
+import { STATUS } from '../../../constants/users';
 
 import styles from './styles.css';
 
@@ -20,7 +20,7 @@ const StatusIcon = ({ status }) => {
   return (
     <div>
       <span className={styles.text}>
-        {mapValue(statusOptions)[status]}
+        {STATUS[status]}
       </span>
       <Icon />
     </div>

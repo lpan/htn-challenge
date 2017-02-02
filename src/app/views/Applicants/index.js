@@ -1,10 +1,11 @@
+import { isEmpty } from 'ramda';
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { usersPropType, optionsPropType } from './utils';
-import { skillOptionsSelector } from '../../reducers/users';
-import { FETCH_USERS } from '../../constants/user';
+import { usersPropType } from './utils';
+import { usersSelector } from '../../reducers/users';
+import { FETCH_USERS } from '../../constants/users';
 import User from './User';
 import FilterBar from './FilterBar';
 
@@ -13,8 +14,11 @@ import userStyles from './User/styles.css';
 
 class Applicants extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({ type: FETCH_USERS, payload: {} });
+    const { dispatch, users } = this.props;
+
+    if (isEmpty(users)) {
+      dispatch({ type: FETCH_USERS, payload: {} });
+    }
   }
 
   renderUsers() {
@@ -23,13 +27,11 @@ class Applicants extends Component {
   }
 
   render() {
-    const { skills } = this.props;
-
     return (
       <div>
         <h1 className={styles.header}>Applicants</h1>
         <hr className={styles.divider} />
-        <FilterBar skills={skills} />
+        <FilterBar />
         <table className={styles.table}>
           <tbody>
             <tr className={userStyles.row}>
@@ -46,21 +48,14 @@ class Applicants extends Component {
   }
 }
 
-Applicants.defaultProps = {
-  users: [],
-  skills: [],
-};
-
 Applicants.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  users: usersPropType,
-  skills: optionsPropType,
+  users: usersPropType.isRequired,
 };
 
 const mapStateToProps = createSelector(
-  skillOptionsSelector,
-  state => state.users.details,
-  (skills, users) => ({ skills, users }),
+  usersSelector,
+  (users) => ({ users }),
 );
 
 export default connect(mapStateToProps)(Applicants);
