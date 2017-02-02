@@ -1,9 +1,15 @@
 import {
   assoc, uniq, flatten, map, compose, path, slice, merge, filter, contains,
-  isNil,
+  isNil, reduce, values,
 } from 'ramda';
 import { createSelector } from 'reselect';
+import uuid from 'uuid';
 import { FETCH_USERS_SUCCEEDED, UPDATE_FILTERS, DEFAULTS } from '../constants/users';
+
+const allUserSelector = compose(
+  values,
+  path(['users', 'details']),
+);
 
 export const skillOptionsSelector = compose(
   map(opt => ({ value: opt, label: opt })),
@@ -11,10 +17,8 @@ export const skillOptionsSelector = compose(
   map(({ skill }) => skill),
   flatten,
   map(user => user.skills),
-  path(['users', 'details']),
+  allUserSelector,
 );
-
-const allUserSelector = path(['users', 'details']);
 
 const rangeSelector = compose(
   ({ numItems, currentPage }) => [currentPage * numItems, (currentPage + 1) * numItems],
@@ -48,9 +52,15 @@ export const usersSelector = createSelector(
   (filters, users) => filterUsers(filters)(users),
 );
 
+// convert list of users to map of users for faster lookups
+const toMap = reduce((accum, current) => {
+  const id = uuid();
+  return assoc(id, assoc('id', id, current), accum);
+}, {});
+
 const initialState = {
   // all users fetched from API
-  details: [],
+  details: {},
   // persistant filter criteria
   filters: {
     numItems: DEFAULTS.NUM_ITEMS,
@@ -63,7 +73,7 @@ const initialState = {
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USERS_SUCCEEDED: {
-      return assoc('details', action.payload, state);
+      return assoc('details', toMap(action.payload), state);
     }
 
     case UPDATE_FILTERS: {
