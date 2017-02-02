@@ -4,9 +4,11 @@ const { resolve } = require('path');
 const { mergeWith, concat } = require('ramda');
 
 const autoprefixer = require('autoprefixer');
-const nested = require('postcss-nested');
+const precss = require('precss');
 
 const ENV = process.env.NODE_ENV;
+
+const postcssPlugins = [autoprefixer, precss];
 
 const devel = {
   devtool: 'inline-source-map',
@@ -40,7 +42,7 @@ const devel = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer, nested];
+                return postcssPlugins;
               },
             },
           },
@@ -62,7 +64,7 @@ const devel = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer, nested];
+                return postcssPlugins;
               },
             },
           },
@@ -102,7 +104,7 @@ const prod = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer, nested];
+                return postcssPlugins;
               },
             },
           },
@@ -122,7 +124,7 @@ const prod = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer, nested];
+                return postcssPlugins;
               },
             },
           },

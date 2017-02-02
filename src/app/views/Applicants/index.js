@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 
 import { usersPropType, optionsPropType } from './utils';
 import { skillOptionsSelector } from '../../reducers/users';
+import { FETCH_USERS } from '../../constants/user';
 import User from './User';
 import FilterBar from './FilterBar';
 
@@ -13,7 +14,7 @@ import userStyles from './User/styles.css';
 class Applicants extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: 'FETCH_USERS', payload: {} });
+    dispatch({ type: FETCH_USERS, payload: {} });
   }
 
   renderUsers() {
