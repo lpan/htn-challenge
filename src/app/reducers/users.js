@@ -1,10 +1,15 @@
-import { assoc } from 'ramda';
+import { assoc, uniq, flatten, map, compose, path, toLower } from 'ramda';
 
-const initialState = {
-  details: [],
-};
+export const skillOptionsSelector = compose(
+  map(opt => ({ value: toLower(opt), label: opt })),
+  uniq,
+  map(({ skill }) => skill),
+  flatten,
+  map(user => user.skills),
+  path(['users', 'details']),
+);
 
-const usersReducer = (state = initialState, action) => {
+const usersReducer = (state = { details: [] }, action) => {
   switch (action.type) {
     case 'FETCH_USERS_SUCCEEDED': {
       return assoc('details', action.payload, state);

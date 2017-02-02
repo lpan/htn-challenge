@@ -4,6 +4,7 @@ const { resolve } = require('path');
 const { mergeWith, concat } = require('ramda');
 
 const autoprefixer = require('autoprefixer');
+const nested = require('postcss-nested');
 
 const ENV = process.env.NODE_ENV;
 
@@ -39,14 +40,14 @@ const devel = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer];
+                return [autoprefixer, nested];
               },
             },
           },
         ],
       },
       {
-        test: /^((?!\.global|react-select).)*\.css$/,
+        test: /^((?!\.global).)*\.css$/,
         use: [
           { loader: 'style-loader' },
           {
@@ -61,11 +62,12 @@ const devel = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer];
+                return [autoprefixer, nested];
               },
             },
           },
         ],
+        exclude: /node_modules/,
       },
     ],
   },
@@ -100,14 +102,14 @@ const prod = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer];
+                return [autoprefixer, nested];
               },
             },
           },
         ]),
       },
       {
-        test: /^((?!\.global|react-select).)*\.css$/,
+        test: /^((?!\.global).)*\.css$/,
         use: ExtractTextPlugin.extract([
           {
             loader: 'css-loader',
@@ -120,11 +122,12 @@ const prod = {
             loader: 'postcss-loader',
             options: {
               plugins() {
-                return [autoprefixer];
+                return [autoprefixer, nested];
               },
             },
           },
         ]),
+        exclude: /node_modules/,
       },
     ],
   },

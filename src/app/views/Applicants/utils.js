@@ -1,5 +1,12 @@
 import { PropTypes } from 'react';
 
+export const optionPropType = PropTypes.shape({
+  value: PropTypes.string,
+  label: PropTypes.string,
+});
+
+export const optionsPropType = PropTypes.arrayOf(optionPropType);
+
 export const userPropType = PropTypes.shape({
   company: PropTypes.string,
   latitude: PropTypes.number,

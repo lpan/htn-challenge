@@ -1,16 +1,19 @@
 import React from 'react';
+
+import StatusIcon from './StatusIcon';
+
 import { userPropType } from '../utils';
+import styles from './styles.css';
 
 const User = ({ user }) => (
-  <div>
-    <ul>
-      <li>{user.name}</li>
-      <li>{user.company}</li>
-      <li>{user.phone}</li>
-      <li>{user.picture}</li>
-      <li>{user.status}</li>
-    </ul>
-  </div>
+  <tr className={styles.row}>
+    <td>{user.name}</td>
+    <td>{user.company}</td>
+    <td>{user.email}</td>
+    <td>
+      <StatusIcon status={user.status} />
+    </td>
+  </tr>
 );
 
 User.propTypes = {

@@ -1,0 +1,14 @@
+.header {
+  margin: 2em 0.5em 1em;
+  font-weight: 300;
+}
+
+.divider {
+  background-color: #fff;
+  border-top: 2px dashed #8c8b8b;
+}
+
+.table {
+  margin: 1em;
+  width: 90%;
+}

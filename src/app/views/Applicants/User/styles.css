@@ -1,0 +1,10 @@
+.row {
+  text-align: left;
+  td {
+    padding-top: 0.5em;
+  }
+}
+
+.text {
+  margin-right: 0.5em;
+}
