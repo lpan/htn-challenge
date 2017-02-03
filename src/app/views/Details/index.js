@@ -92,15 +92,12 @@ class Details extends Component {
 
     return (
       <div className={styles.wrapper}>
-        <Header title="Applicant" />
+        <Header title={user.name} />
 
         <div className={styles.container}>
 
           <div>
             <img src={user.picture} alt="" className={styles.picture} />
-            <h2 className={styles.name}>
-              {user.name}
-            </h2>
           </div>
 
           <div>
