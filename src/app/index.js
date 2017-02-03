@@ -10,7 +10,6 @@ import store from './store';
 import Routes from './Routes';
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
 
-
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
