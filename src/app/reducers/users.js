@@ -28,13 +28,6 @@ const rangeSelector = compose(
   path(['users', 'filters']),
 );
 
-// filter base on page
-const userRangeSelector = createSelector(
-  allUsersSelector,
-  rangeSelector,
-  (users, [first, last]) => slice(first, last, users),
-);
-
 const hasSkill = ({ skill }, userSkills) =>
   isNil(skill) || contains(skill, map(skills => skills.skill, userSkills));
 
@@ -49,10 +42,16 @@ const filterUsers = (filters) => filter(user => {
 
 export const filtersSelector = path(['users', 'filters']);
 
-export const usersSelector = createSelector(
+const filteredUserSelector = createSelector(
   filtersSelector,
-  userRangeSelector,
+  allUsersSelector,
   (filters, users) => filterUsers(filters)(users),
+);
+
+export const usersSelector = createSelector(
+  rangeSelector,
+  filteredUserSelector,
+  ([first, last], users) => slice(first, last, users),
 );
 
 const numberUsersSelector = compose(
