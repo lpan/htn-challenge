@@ -14,7 +14,7 @@ import styles from './styles.css';
 
 import Header from '../shared/Header';
 import Info from './Info';
-import Button from './Button';
+import Button from '../shared/Button';
 import StatusIcon from '../shared/StatusIcon';
 
 const changeStatus = (id, status) => ({

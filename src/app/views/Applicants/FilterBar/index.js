@@ -2,9 +2,13 @@ import React, { PropTypes } from 'react';
 import Select from 'react-select';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { skillOptionsSelector, filtersSelector } from '../../../reducers/users';
+
+import {
+  skillOptionsSelector, filtersSelector, pageNumOptionsSelector,
+} from '../../../reducers/users';
 import { UPDATE_FILTERS, STATUS_OPTIONS, NUM_ITEMS_OPTIONS } from '../../../constants/users';
 import { optionsPropType } from '../../customPropTypes';
+
 import styles from './styles.css';
 
 const updateValue = (type, dispatch) => (opt) => {
@@ -18,7 +22,7 @@ const updateValue = (type, dispatch) => (opt) => {
   dispatch({ type: UPDATE_FILTERS, payload: { [type]: value } });
 };
 
-const FilterBar = ({ skillOptions, filters, dispatch }) => (
+const FilterBar = ({ skillOptions, pageNumOptions, filters, dispatch }) => (
   <div className={styles.container}>
     <Select
       name="skill"
@@ -45,12 +49,22 @@ const FilterBar = ({ skillOptions, filters, dispatch }) => (
       className={styles.item}
       clearable={false}
     />
+    <Select
+      name="page-number"
+      value={filters.currentPage}
+      onChange={updateValue('currentPage', dispatch)}
+      options={pageNumOptions}
+      placeholder="Page number"
+      className={styles.item}
+      clearable={false}
+    />
   </div>
 );
 
 FilterBar.propTypes = {
   dispatch: PropTypes.func.isRequired,
   skillOptions: optionsPropType.isRequired,
+  pageNumOptions: optionsPropType.isRequired,
   filters: PropTypes.shape({
     numItems: PropTypes.number,
     currentPage: PropTypes.number,
@@ -62,7 +76,8 @@ FilterBar.propTypes = {
 const mapStateToProps = createSelector(
   skillOptionsSelector,
   filtersSelector,
-  (skillOptions, filters) => ({ skillOptions, filters }),
+  pageNumOptionsSelector,
+  (skillOptions, filters, pageNumOptions) => ({ skillOptions, filters, pageNumOptions }),
 );
 
 export default connect(mapStateToProps)(FilterBar);

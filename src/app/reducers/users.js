@@ -1,6 +1,6 @@
 import {
   assoc, uniq, flatten, map, compose, path, slice, merge, filter, contains,
-  isNil, reduce, values, assocPath,
+  isNil, reduce, values, assocPath, length, times,
 } from 'ramda';
 import { createSelector } from 'reselect';
 import uuid from 'uuid';
@@ -53,6 +53,23 @@ export const usersSelector = createSelector(
   filtersSelector,
   userRangeSelector,
   (filters, users) => filterUsers(filters)(users),
+);
+
+const numberUsersSelector = compose(
+  length,
+  allUsersSelector,
+);
+
+// get total page number
+const pageNumSelector = createSelector(
+  numberUsersSelector,
+  filtersSelector,
+  (numUsers, { numItems }) => Math.ceil(numUsers / numItems),
+);
+
+export const pageNumOptionsSelector = createSelector(
+  pageNumSelector,
+  times(n => ({ value: n, label: `Page ${n + 1}` })),
 );
 
 export const currentUserSelector = createSelector(
