@@ -1,22 +1,12 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 
 import StatusIcon from '../../shared/StatusIcon';
 
-import { SET_CURRENT_USER } from '../../../constants/users';
 import { userPropType } from '../../customPropTypes';
 import styles from './styles.css';
 
-const onClick = (dispatch, user) => () => {
-  if (user) {
-    dispatch({ type: SET_CURRENT_USER, payload: user.id });
-    dispatch(push('/details'));
-  }
-};
-
-const User = ({ user, dispatch }) => (
-  <tr className={styles.row} onClick={onClick(dispatch, user)}>
+const User = ({ user, onClick }) => (
+  <tr className={styles.row} onClick={onClick}>
     <td>
       {user.name}
     </td>
@@ -30,7 +20,7 @@ const User = ({ user, dispatch }) => (
 
 User.propTypes = {
   user: userPropType.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
-export default connect()(User);
+export default User;

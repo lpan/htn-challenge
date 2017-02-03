@@ -2,10 +2,11 @@ import { isEmpty } from 'ramda';
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { push } from 'react-router-redux';
 
 import { usersPropType } from '../customPropTypes';
 import { usersSelector } from '../../reducers/users';
-import { FETCH_USERS } from '../../constants/users';
+import { FETCH_USERS, SET_CURRENT_USER } from '../../constants/users';
 
 import Header from '../shared/Header';
 import User from './User';
@@ -23,8 +24,15 @@ class Applicants extends Component {
   }
 
   renderUsers() {
-    const { users } = this.props;
-    return users.map((user) => <User key={user.id} user={user} />);
+    const { users, dispatch } = this.props;
+    const onClick = (user) => () => {
+      if (user) {
+        dispatch({ type: SET_CURRENT_USER, payload: user.id });
+        dispatch(push('/details'));
+      }
+    };
+
+    return users.map((user) => <User key={user.id} user={user} onClick={onClick(user)} />);
   }
 
   render() {
