@@ -1,7 +1,13 @@
 .row {
   text-align: left;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   td {
-    padding-top: 1em;
+    padding: 1em 0;
   }
 }
 

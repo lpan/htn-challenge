@@ -12,7 +12,6 @@ import User from './User';
 import FilterBar from './FilterBar';
 
 import styles from './styles.css';
-import userStyles from './User/styles.css';
 
 class Applicants extends Component {
   componentDidMount() {
@@ -35,7 +34,7 @@ class Applicants extends Component {
         <FilterBar />
         <table className={styles.table}>
           <tbody>
-            <tr className={userStyles.row}>
+            <tr className={styles.row}>
               <th>Name</th>
               <th>Company</th>
               <th>Email address</th>

@@ -2,16 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { createSelector } from 'reselect';
-import { isEmpty, map } from 'ramda';
+import { isNil, map } from 'ramda';
 
 import { BarChart } from 'react-d3';
 
 import { userPropType } from '../customPropTypes';
 import { currentUserSelector } from '../../reducers/users';
-
-import { CHANGE_USER_STATUS } from '../../constants/users';
+import { CHANGE_USER_STATUS, ACCEPTED, REJECTED } from '../../constants/users';
 
 import styles from './styles.css';
+
 import Header from '../shared/Header';
 import Info from './Info';
 import Button from './Button';
@@ -31,7 +31,7 @@ const toData = (skills) => ([{
 class Details extends Component {
   componentWillMount() {
     const { user, dispatch } = this.props;
-    if (isEmpty(user)) {
+    if (isNil(user)) {
       dispatch(push('/applicants'));
     }
   }
@@ -39,8 +39,8 @@ class Details extends Component {
   renderButtons() {
     const { user, dispatch } = this.props;
 
-    const accept = () => { dispatch(changeStatus(user.id, 'accepted')); };
-    const reject = () => { dispatch(changeStatus(user.id, 'rejected')); };
+    const accept = () => { dispatch(changeStatus(user.id, ACCEPTED)); };
+    const reject = () => { dispatch(changeStatus(user.id, REJECTED)); };
 
     return (
       <div className={styles.buttons}>
@@ -84,8 +84,14 @@ class Details extends Component {
 
   render() {
     const { user } = this.props;
+
+    // react-router push is async
+    if (isNil(user)) {
+      return (<div />);
+    }
+
     return (
-      <div>
+      <div className={styles.wrapper}>
         <Header title="Applicant" />
 
         <div className={styles.container}>

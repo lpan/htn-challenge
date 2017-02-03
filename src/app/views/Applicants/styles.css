@@ -2,3 +2,11 @@
   margin: 1em 2em;
   width: 90%;
 }
+
+.row {
+  text-align: left;
+
+  td {
+    padding: 1em 0;
+  }
+}

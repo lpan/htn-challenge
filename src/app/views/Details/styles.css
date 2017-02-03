@@ -1,3 +1,7 @@
+.wrapper {
+  padding-bottom: 2em;
+}
+
 .container {
   display: flex;
   margin-top: 3em;

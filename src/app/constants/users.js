@@ -24,10 +24,16 @@ export const DEFAULTS = {
   INIT_PAGE: 0,
 };
 
+export const REJECTED = 'rejected';
+
+export const ACCEPTED = 'accepted';
+
+export const IN_REVIEW = 'in_review';
+
 export const STATUS = {
-  rejected: 'Rejected',
-  accepted: 'Accepted',
-  in_review: 'In Review',
+  [REJECTED]: 'Rejected',
+  [ACCEPTED]: 'Accepted',
+  [IN_REVIEW]: 'In Review',
 };
 
 export const STATUS_OPTIONS = makeOptions(STATUS);
