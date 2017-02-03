@@ -13,6 +13,10 @@ export const FETCH_USERS_SUCCEEDED = 'FETCH_USERS_SUCCEEDED';
 
 export const FETCH_USERS_FAILED = 'FETCH_USERS_FAILED';
 
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
+export const CHANGE_USER_STATUS = 'CHANGE_USER_STATUS';
+
 export const DEFAULTS = {
   // default number of items per page
   NUM_ITEMS: 50,

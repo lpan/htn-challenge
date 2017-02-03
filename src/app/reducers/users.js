@@ -1,12 +1,15 @@
 import {
   assoc, uniq, flatten, map, compose, path, slice, merge, filter, contains,
-  isNil, reduce, values,
+  isNil, reduce, values, assocPath,
 } from 'ramda';
 import { createSelector } from 'reselect';
 import uuid from 'uuid';
-import { FETCH_USERS_SUCCEEDED, UPDATE_FILTERS, DEFAULTS } from '../constants/users';
+import {
+  FETCH_USERS_SUCCEEDED, UPDATE_FILTERS, SET_CURRENT_USER, DEFAULTS,
+  CHANGE_USER_STATUS,
+} from '../constants/users';
 
-const allUserSelector = compose(
+const allUsersSelector = compose(
   values,
   path(['users', 'details']),
 );
@@ -17,7 +20,7 @@ export const skillOptionsSelector = compose(
   map(({ skill }) => skill),
   flatten,
   map(user => user.skills),
-  allUserSelector,
+  allUsersSelector,
 );
 
 const rangeSelector = compose(
@@ -27,7 +30,7 @@ const rangeSelector = compose(
 
 // filter base on page
 const userRangeSelector = createSelector(
-  allUserSelector,
+  allUsersSelector,
   rangeSelector,
   (users, [first, last]) => slice(first, last, users),
 );
@@ -52,6 +55,12 @@ export const usersSelector = createSelector(
   (filters, users) => filterUsers(filters)(users),
 );
 
+export const currentUserSelector = createSelector(
+  path(['users', 'details']),
+  path(['users', 'current']),
+  (users, id) => users[id],
+);
+
 // convert list of users to map of users for faster lookups
 const toMap = reduce((accum, current) => {
   const id = uuid();
@@ -68,6 +77,7 @@ const initialState = {
     skill: null,
     status: null,
   },
+  current: null,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -78,6 +88,15 @@ const usersReducer = (state = initialState, action) => {
 
     case UPDATE_FILTERS: {
       return assoc('filters', merge(state.filters, action.payload), state);
+    }
+
+    case SET_CURRENT_USER: {
+      return assoc('current', action.payload, state);
+    }
+
+    case CHANGE_USER_STATUS: {
+      const { id, status } = action.payload;
+      return assocPath(['details', id, 'status'], status, state);
     }
 
     default: {

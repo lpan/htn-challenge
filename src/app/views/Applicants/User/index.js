@@ -3,16 +3,17 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
 import Icon from 'react-icons/lib/fa/info-circle';
-import StatusIcon from './StatusIcon';
+import StatusIcon from '../../shared/StatusIcon';
 
-import { SET_CURRENT_USER } from '../../../constants/user';
-import { userPropType } from '../utils';
+import { SET_CURRENT_USER } from '../../../constants/users';
+import { userPropType } from '../../customPropTypes';
 import styles from './styles.css';
 
 const onClick = (dispatch, user) => () => {
   if (user) {
+    console.log(SET_CURRENT_USER);
+    dispatch({ type: SET_CURRENT_USER, payload: user.id });
     dispatch(push('/details'));
-    dispatch({ type: SET_CURRENT_USER, payload: user });
   }
 };
 

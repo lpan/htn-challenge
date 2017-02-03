@@ -19,10 +19,10 @@ const StatusIcon = ({ status }) => {
   const Icon = getIcon(status);
   return (
     <div>
+      <Icon />
       <span className={styles.text}>
         {STATUS[status]}
       </span>
-      <Icon />
     </div>
   );
 };

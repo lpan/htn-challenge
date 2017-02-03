@@ -1,0 +1,11 @@
+.container {
+  background-color: #0EC6FD;
+  margin: 0;
+}
+
+.header {
+  margin: 0;
+  font-weight: 300;
+  color: white;
+  padding: 2em 1em 1em;
+}

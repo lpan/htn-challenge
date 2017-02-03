@@ -5,13 +5,7 @@
   justify-content: flex-start;
 }
 
-.input {
-  font-size: 1em;
-  height: 1.5em;
-  margin: 0.5em 0.5em 0.5em 1em;
-}
-
 .item {
   width: 10em;
-  margin: 0.5em 0.5em 0.5em 1em;
+  margin: 2em;
 }

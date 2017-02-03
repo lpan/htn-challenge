@@ -3,9 +3,11 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { usersPropType } from './utils';
+import { usersPropType } from '../customPropTypes';
 import { usersSelector } from '../../reducers/users';
 import { FETCH_USERS } from '../../constants/users';
+
+import Header from '../shared/Header';
 import User from './User';
 import FilterBar from './FilterBar';
 
@@ -29,8 +31,7 @@ class Applicants extends Component {
   render() {
     return (
       <div>
-        <h1 className={styles.header}>Applicants</h1>
-        <hr className={styles.divider} />
+        <Header title="Applicants" />
         <FilterBar />
         <table className={styles.table}>
           <tbody>

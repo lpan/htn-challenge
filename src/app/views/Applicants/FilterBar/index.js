@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { skillOptionsSelector, filtersSelector } from '../../../reducers/users';
 import { UPDATE_FILTERS, STATUS_OPTIONS, NUM_ITEMS_OPTIONS } from '../../../constants/users';
-import { optionsPropType } from '../utils';
+import { optionsPropType } from '../../customPropTypes';
 import styles from './styles.css';
 
 const updateValue = (type, dispatch) => (opt) => {
