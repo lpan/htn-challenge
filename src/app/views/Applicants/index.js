@@ -2,7 +2,6 @@ import { isEmpty } from 'ramda';
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { push } from 'react-router-redux';
 
 import { usersPropType } from '../customPropTypes';
 import { usersSelector } from '../../reducers/users';
@@ -28,7 +27,6 @@ class Applicants extends Component {
     const onClick = (user) => () => {
       if (user) {
         dispatch({ type: SET_CURRENT_USER, payload: user.id });
-        dispatch(push('/details'));
       }
     };
 
